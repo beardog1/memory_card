@@ -1,0 +1,19 @@
+h1 {
+  color:blue;
+}
+
+.Square {
+  position: relative;
+  float: center;
+  width: 100px;
+  height: 100px;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 18pt;
+  font-family: Helvetica;
+        }        
+
+.hide {
+  display: none;
+}
