@@ -2,6 +2,14 @@ h1 {
   color:blue;
 }
 
+h4 {
+  color:red;
+}
+
+h2 {
+  color:red;
+}
+
 .Square {
   position: relative;
   float: center;
@@ -12,8 +20,9 @@ h1 {
   text-align: center;
   font-size: 18pt;
   font-family: Helvetica;
-        }        
+        }
 
 .hide {
   display: none;
+
 }

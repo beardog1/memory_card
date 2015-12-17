@@ -4,6 +4,7 @@
  var selected = [];
  var card1 = "";
  var card2 = "";
+ score = 0;
  $(document).ready(function(){
    function shuffle(o){
      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -23,7 +24,7 @@
   }
   shuffle(selected);
 
-  var shuffleIndex = 0; 
+  var shuffleIndex = 0;
   $(".Square p").each(function(){
       $(this).text(selected[shuffleIndex]);
       shuffleIndex += 1;
@@ -37,57 +38,76 @@
 });
 
 function delayedHide(card1, card2) {
-  // $(this).hide().delay(2000);
-  
-  card1.addClass("hide");
-  card2.addClass("hide");
-
-
+  var $hide1 = $(card1);
+  var $hide2 = $(card2);
+  //card1.addClass("hide");
+  //card2.addClass("hide");
+  $hide1.delay(1000).fadeOut(500);
+  $hide2.delay(1000).fadeOut(500);
 }
 
 
 function flipOver(card){
-  card.removeClass("hide"); 
-
-  if(card1 == "") {
-    card1 = card;
-  }
-  else if(card2 == "") {
-    card2 = card;
-  }
-  if (card2 != "" && card1 != ""){
-    if(card1.text() == card2.text()) {
-      card1 = "";
-      card2 = "";
-      matchFound();
+  if(card.hasClass("hide")){
+    addScore();
+    card.fadeIn(1);
+    card.removeClass("hide");
+    if(card1 == "") {
+      card1 = card;
     }
-    else {
-      //change card1 from jquery object to javascript array to pass through the settimeout function
-      setTimeout(function() { delayedHide(card1, card2); }, 2000);
-
-      card1 = "";
-      card2 = "";
+    else if(card2 == "") {
+      card2 = card;
     }
+    if(card2 != "" && card1 != ""){
+      if(card1.text() == card2.text()) {
+        card1 = "";
+        card2 = "";
+        matchFound();
+
+      }
+      else {
+        card1.addClass("hide");
+        card2.addClass("hide");
+        //change card1 from jquery object to javascript array to pass through the settimeout function
+        delayedHide(card1, card2);
+        noMatch();
+        card1 = "";
+        card2 = "";
+      }
+
+      }
+      checkForWin();
   }
 }
 
+function checkForWin() {
+  deck = 0
+  $(".Square p").each(function() {
+  if(!$(this).hasClass("hide")) {
+    deck++;
+  }
+  })
+  if(deck >= 16) {
+    youWin();
+  }
+  }
 
 
+function youWin() {
+  $(".Win").text("You Win!");
+}
 
-    // if(faceUpCard != "" && card[0].innerHTML != faceUpCard[0].innerHTML) {
-    //   card.addClass("hide");
-    //   faceUpCard.addClass("hide");
-    //   faceUpCard = "";
-    // }
-    // else if(faceUpCard != "" && card[0].innerHTML == faceUpCard[0].innerHTML){
-    //   matchFound();
-    //   faceUpCard = "";
-    // }
-    // else {
-    // faceUpCard = card;
-    // }
-    
-  
+function matchFound() {
+  $(".Message").text("Match Found!");
+}
 
+function noMatch() {
+  $(".Message").text("No Match.")
+}
+
+function addScore() {
+  score++;
+  $(".scoreboard").text(score);
+}
 
 
